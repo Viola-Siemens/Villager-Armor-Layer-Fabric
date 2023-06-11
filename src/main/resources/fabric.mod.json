@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "villagerarmor",
+  "version": "${version}",
+  "name": "Villager Armor Layer",
+  "description": "",
+  "authors": [],
+  "contact": {
+	"repo": "https://github.com/Viola-Siemens/Villager-Armor-Layer-Fabric"
+  },
+  "license": "AGPL-3.0",
+  "icon": "logo.png",
+  "environment": "client",
+  "entrypoints": {
+	"client": [
+	  "com.hexagram2021.villagerarmor.VillagerArmorLayer"
+	]
+  },
+  "accessWidener": "villagerarmor.accessWidener",
+  "mixins": [
+	"villagerarmor.mixins.json"
+  ],
+  "depends": {
+	"fabricloader": ">=0.14.19",
+	"minecraft": "1.16.5"
+  }
+}
