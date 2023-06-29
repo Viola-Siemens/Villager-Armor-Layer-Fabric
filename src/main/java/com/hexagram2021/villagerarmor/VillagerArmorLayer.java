@@ -1,5 +1,6 @@
 package com.hexagram2021.villagerarmor;
 
+import com.hexagram2021.villagerarmor.client.VALModelLayers;
 import net.fabricmc.api.ClientModInitializer;
 
 @SuppressWarnings("unused")
@@ -9,6 +10,6 @@ public class VillagerArmorLayer implements ClientModInitializer {
 	
 	@Override
 	public void onInitializeClient() {
-	
+		VALModelLayers.onRegisterLayers();
 	}
 }

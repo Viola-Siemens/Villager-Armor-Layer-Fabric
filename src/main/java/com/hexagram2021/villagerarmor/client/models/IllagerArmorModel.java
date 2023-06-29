@@ -1,74 +1,90 @@
 package com.hexagram2021.villagerarmor.client.models;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import org.jetbrains.annotations.NotNull;
 
-public class IllagerArmorModel extends ListModel<AbstractIllager> implements IHumanoidModel, VillagerHeadModel {
-	protected ModelPart head;
+public class IllagerArmorModel extends HierarchicalModel<AbstractIllager> implements IHumanoidModel, VillagerHeadModel {
+	protected final ModelPart root;
+	protected final ModelPart head;
 	protected final ModelPart body;
 	protected final ModelPart leftLeg;
 	protected final ModelPart rightLeg;
 	protected final ModelPart arms;
 	protected final ModelPart leftArm;
 	protected final ModelPart rightArm;
-
-	public IllagerArmorModel(float root) {
-		this.texWidth = 64;
-		this.texHeight = 32;
-		this.head = new ModelPart(this, 0, 0);
-		this.head.addBox(-4.0F, -10.0F, -4.0F, 8.0F, 8.0F, 8.0F, root);
-		this.body = new ModelPart(this, 16, 16);
-		this.body.addBox(-4.0F, 1.0F, -2.0F, 8.0F, 12.0F, 4.0F, root + 1.0F);
-		this.rightLeg = new ModelPart(this, 0, 16);
-		this.rightLeg.setPos(-2.0F, 12.0F, 0.0F);
-		this.rightLeg.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, root - 0.1F);
-		this.leftLeg = new ModelPart(this, 0, 16);
-		this.leftLeg.mirror = true;
-		this.leftLeg.setPos(2.0F, 12.0F, 0.0F);
-		this.leftLeg.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, root - 0.1F);
-		this.arms = new ModelPart(this, 40, 16);
-		this.arms.setPos(0.0F, 2.0F, 0.0F);
-		this.arms.addBox(-8.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, root);
-		this.arms.addBox(4.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, root, true);
-		this.rightArm = new ModelPart(this, 40, 16);
-		this.rightArm.setPos(-5.0F, 2.0F, 0.0F);
-		this.rightArm.addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, root);
-		this.leftArm = new ModelPart(this, 40, 16);
-		this.leftArm.setPos(5.0F, 2.0F, 0.0F);
-		this.leftArm.addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, root, true);
+	
+	public IllagerArmorModel(ModelPart root) {
+		this.root = root;
+		this.head = root.getChild("head");
+		this.body = root.getChild("body");
+		this.rightArm = root.getChild("right_arm");
+		this.leftArm = root.getChild("left_arm");
+		this.arms = root.getChild("arms");
+		this.rightLeg = root.getChild("right_leg");
+		this.leftLeg = root.getChild("left_leg");
 	}
-
+	
+	public static LayerDefinition createBodyLayer(CubeDeformation cubeDeformation, float y, float extend) {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+		partdefinition.addOrReplaceChild("head",
+				CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 8.0F, 8.0F, cubeDeformation),
+				PartPose.offset(0.0F, 0.0F + y, 0.0F));
+		partdefinition.addOrReplaceChild("body",
+				CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 1.0F, -2.0F, 8.0F, 12.0F, 4.0F, cubeDeformation.extend(0.25F, 1.0F, 1.0F)),
+				PartPose.offset(0.0F, 0.0F + y, 0.0F));
+		partdefinition.addOrReplaceChild("right_arm",
+				CubeListBuilder.create().texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation.extend(-0.25F)),
+				PartPose.offset(-5.0F, 2.0F + y, 0.0F));
+		partdefinition.addOrReplaceChild("left_arm",
+				CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation.extend(-0.25F)),
+				PartPose.offset(5.0F, 2.0F + y, 0.0F));
+		partdefinition.addOrReplaceChild("arms",
+				CubeListBuilder.create()
+						.texOffs(40, 16).addBox(-8.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, cubeDeformation.extend(-0.25F))
+						.texOffs(40, 16).mirror().addBox(4.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, cubeDeformation.extend(-0.25F)),
+				PartPose.offset(0.0F, 2.0F + y, 0.0F));
+		partdefinition.addOrReplaceChild("right_leg",
+				CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation.extend(extend)),
+				PartPose.offset(-2.0F, 12.0F + y, 0.0F));
+		partdefinition.addOrReplaceChild("left_leg",
+				CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation.extend(extend)),
+				PartPose.offset(2.0F, 12.0F + y, 0.0F));
+		return LayerDefinition.create(meshdefinition, 64, 32);
+	}
+	
 	@Override
 	public void setHeadVisible(boolean visible) {
 		this.head.visible = visible;
 	}
-
+	
 	@Override
 	public void setHatVisible(boolean visible) {
 	}
-
+	
 	@Override
 	public void setBodyVisible(boolean visible) {
 		this.body.visible = visible;
 	}
-
+	
 	@Override
 	public void setArmsVisible(boolean visible) {
 		this.leftArm.visible = this.rightArm.visible = this.arms.visible = visible;
 	}
-
+	
 	@Override
 	public void setLegsVisible(boolean visible) {
 		this.leftLeg.visible = this.rightLeg.visible = visible;
 	}
-
+	
 	@SuppressWarnings("unused")
 	public void copyPropertiesTo(IllagerArmorModel model) {
 		super.copyPropertiesTo(model);
@@ -80,16 +96,15 @@ public class IllagerArmorModel extends ListModel<AbstractIllager> implements IHu
 		model.rightLeg.copyFrom(this.rightLeg);
 		model.leftLeg.copyFrom(this.leftLeg);
 	}
-
+	
 	@Override
 	public <E extends Entity> void propertiesCopyFrom(EntityModel<E> model) {
 		this.attackTime = model.attackTime;
 		this.riding = model.riding;
 		this.young = model.young;
-		if(model instanceof IllagerModel) {
-			IllagerModel<?> illagerModel = (IllagerModel<?>) model;
+		if(model instanceof IllagerModel<?> illagerModel) {
 			this.head.copyFrom(illagerModel.head);
-			this.body.copyFrom(illagerModel.body);
+			this.body.copyFrom(illagerModel.root.getChild("body"));
 			this.rightArm.copyFrom(illagerModel.rightArm);
 			this.leftArm.copyFrom(illagerModel.leftArm);
 			this.arms.copyFrom(illagerModel.arms);
@@ -97,32 +112,31 @@ public class IllagerArmorModel extends ListModel<AbstractIllager> implements IHu
 			this.leftLeg.copyFrom(illagerModel.leftLeg);
 		}
 	}
-
+	
 	@Override
 	public <E extends Entity> void afterSetPartVisibility(EntityModel<E> model) {
-		if(model instanceof IllagerModel) {
-			IllagerModel<?> illagerModel = (IllagerModel<?>) model;
+		if(model instanceof IllagerModel<?> illagerModel) {
 			this.rightArm.visible &= illagerModel.rightArm.visible;
 			this.leftArm.visible &= illagerModel.leftArm.visible;
 			this.arms.visible &= illagerModel.arms.visible;
 		}
 	}
-
+	
 	@Override
 	public void renderModelToBuffer(PoseStack transform, VertexConsumer builder, int uv2, int overlayType, float r, float g, float b, float a) {
 		this.renderToBuffer(transform, builder, uv2, overlayType, r, g, b, a);
 	}
-
+	
 	@Override
 	public void hatVisible(boolean visible) {
 		this.head.visible = visible;
 	}
-
+	
 	@Override @NotNull
-	public Iterable<ModelPart> parts() {
-		return ImmutableList.of(this.head, this.body, this.leftLeg, this.rightLeg, this.arms, this.leftArm, this.rightArm);
+	public ModelPart root() {
+		return this.root;
 	}
-
+	
 	@Override
 	public void setupAnim(@NotNull AbstractIllager entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
@@ -157,7 +171,7 @@ public class IllagerArmorModel extends ListModel<AbstractIllager> implements IHu
 			this.rightLeg.yRot = 0.0F;
 			this.rightLeg.zRot = 0.0F;
 		}
-
+		
 		AbstractIllager.IllagerArmPose armPose = entity.getArmPose();
 		if (armPose == AbstractIllager.IllagerArmPose.ATTACKING) {
 			if (entity.getMainHandItem().isEmpty()) {
@@ -198,7 +212,7 @@ public class IllagerArmorModel extends ListModel<AbstractIllager> implements IHu
 			this.leftArm.zRot = -2.3561945F;
 			this.leftArm.yRot = 0.0F;
 		}
-
+		
 		boolean flag = armPose == AbstractIllager.IllagerArmPose.CROSSED;
 		this.arms.visible = flag;
 		this.leftArm.visible = !flag;

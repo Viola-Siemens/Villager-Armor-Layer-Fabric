@@ -1,17 +1,16 @@
 accessWidener	v1 named
 
+accessible field net/minecraft/client/model/IllagerModel root Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/IllagerModel head Lnet/minecraft/client/model/geom/ModelPart;
-accessible field net/minecraft/client/model/IllagerModel body Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/IllagerModel arms Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/IllagerModel leftLeg Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/IllagerModel rightLeg Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/IllagerModel leftArm Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/IllagerModel rightArm Lnet/minecraft/client/model/geom/ModelPart;
 
+accessible field net/minecraft/client/model/VillagerModel root Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/VillagerModel head Lnet/minecraft/client/model/geom/ModelPart;
-accessible field net/minecraft/client/model/VillagerModel body Lnet/minecraft/client/model/geom/ModelPart;
-accessible field net/minecraft/client/model/VillagerModel arms Lnet/minecraft/client/model/geom/ModelPart;
-accessible field net/minecraft/client/model/VillagerModel leg0 Lnet/minecraft/client/model/geom/ModelPart;
-accessible field net/minecraft/client/model/VillagerModel leg1 Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/VillagerModel leftLeg Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/VillagerModel rightLeg Lnet/minecraft/client/model/geom/ModelPart;
 
 accessible method net/minecraft/client/renderer/entity/LivingEntityRenderer addLayer (Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z

@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.hexagram2021.villagerarmor.client.models.IHumanoidModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.ListModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class HumanoidArmorLayer<T extends LivingEntity, M extends ListModel<T>, A extends IHumanoidModel> extends RenderLayer<T, M> {
+public class HumanoidArmorLayer<T extends LivingEntity, M extends HierarchicalModel<T>, A extends IHumanoidModel> extends RenderLayer<T, M> {
 	private static final Map<String, ResourceLocation> ARMOR_LOCATION_CACHE = Maps.newHashMap();
 	private final A innerModel;
 	private final A outerModel;
@@ -43,8 +43,7 @@ public class HumanoidArmorLayer<T extends LivingEntity, M extends ListModel<T>, 
 
 	private void renderArmorPiece(PoseStack transform, MultiBufferSource buffer, T entity, EquipmentSlot slotType, int uv2, A model) {
 		ItemStack itemstack = entity.getItemBySlot(slotType);
-		if (itemstack.getItem() instanceof ArmorItem) {
-			ArmorItem armoritem = (ArmorItem)itemstack.getItem();
+		if (itemstack.getItem() instanceof ArmorItem armoritem) {
 			if (armoritem.getSlot() == slotType) {
 				model.propertiesCopyFrom(this.getParentModel());
 				this.setPartVisibility(model, slotType);
@@ -60,28 +59,26 @@ public class HumanoidArmorLayer<T extends LivingEntity, M extends ListModel<T>, 
 				} else {
 					this.renderModel(transform, buffer, uv2, foil, model, 1.0F, 1.0F, 1.0F, this.getArmorResource(itemstack, slotType, null));
 				}
-
 			}
 		}
 	}
 
 	protected void setPartVisibility(A model, EquipmentSlot slotType) {
 		model.setAllVisible(false);
-		switch(slotType) {
-			case HEAD:
+		switch (slotType) {
+			case HEAD -> {
 				model.setHeadVisible(true);
 				model.setHatVisible(true);
-				break;
-			case CHEST:
+			}
+			case CHEST -> {
 				model.setBodyVisible(true);
 				model.setArmsVisible(true);
-				break;
-			case LEGS:
+			}
+			case LEGS -> {
 				model.setBodyVisible(true);
 				model.setLegsVisible(true);
-				break;
-			case FEET:
-				model.setLegsVisible(true);
+			}
+			case FEET -> model.setLegsVisible(true);
 		}
 	}
 
