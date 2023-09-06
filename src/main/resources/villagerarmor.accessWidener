@@ -13,4 +13,11 @@ accessible field net/minecraft/client/model/VillagerModel head Lnet/minecraft/cl
 accessible field net/minecraft/client/model/VillagerModel leftLeg Lnet/minecraft/client/model/geom/ModelPart;
 accessible field net/minecraft/client/model/VillagerModel rightLeg Lnet/minecraft/client/model/geom/ModelPart;
 
+accessible field net/minecraft/client/model/IronGolemModel root Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/IronGolemModel head Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/IronGolemModel leftArm Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/IronGolemModel rightArm Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/IronGolemModel leftLeg Lnet/minecraft/client/model/geom/ModelPart;
+accessible field net/minecraft/client/model/IronGolemModel rightLeg Lnet/minecraft/client/model/geom/ModelPart;
+
 accessible method net/minecraft/client/renderer/entity/LivingEntityRenderer addLayer (Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z

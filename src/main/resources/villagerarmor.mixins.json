@@ -6,12 +6,13 @@
   "mixins": [
   ],
   "client": [
-    "IllagerRendererMixin",
-    "VillagerRendererMixin",
-    "WanderingTraderRendererMixin",
-    "WitchRendererMixin"
+	"IllagerRendererMixin",
+	"IronGolemRendererMixin",
+	"VillagerRendererMixin",
+	"WanderingTraderRendererMixin",
+	"WitchRendererMixin"
   ],
   "injectors": {
-    "defaultRequire": 1
+	"defaultRequire": 1
   }
 }
