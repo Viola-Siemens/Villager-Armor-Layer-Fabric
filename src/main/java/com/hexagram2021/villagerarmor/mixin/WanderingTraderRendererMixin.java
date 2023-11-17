@@ -16,7 +16,12 @@ public class WanderingTraderRendererMixin {
 	@Inject(method = "<init>", at = @At(value = "RETURN"))
 	public void addVillagerArmorLayer(EntityRendererProvider.Context context, CallbackInfo ci) {
 		WanderingTraderRenderer current = ((WanderingTraderRenderer)(Object)this);
-		current.addLayer(new HumanoidArmorLayer<>(current, new VillagerArmorModel(context.bakeLayer(VALModelLayers.VILLAGER_INNER_ARMOR)), new VillagerArmorModel(context.bakeLayer(VALModelLayers.VILLAGER_OUTER_ARMOR))));
+		current.addLayer(new HumanoidArmorLayer<>(
+				current,
+				new VillagerArmorModel<>(context.bakeLayer(VALModelLayers.VILLAGER_INNER_ARMOR)),
+				new VillagerArmorModel<>(context.bakeLayer(VALModelLayers.VILLAGER_OUTER_ARMOR)),
+				context.getModelManager()
+		));
 		current.addLayer(new ElytraLayer<>(current, context.getModelSet()));
 	}
 }
